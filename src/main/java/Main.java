@@ -13,7 +13,7 @@ public class Main {
         port(getHerokuAssignedPort());
         get("/alife", (request, response) -> {
             response.type("application/json");
-            return "I am alive.";
+            return "I am alive";
         }, gson::toJson);
     }
 
