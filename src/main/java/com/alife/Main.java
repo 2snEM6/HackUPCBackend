@@ -1,4 +1,9 @@
-import Util.HTTPResponse;
+package com.alife;
+
+import com.alife.Entity.Emergency;
+import com.alife.Handler.EmergencyHandler;
+import com.alife.Handler.FirebaseSetupHandler;
+import com.alife.Util.HTTPResponse;
 import com.google.gson.Gson;
 
 import static spark.Spark.*;
@@ -24,12 +29,14 @@ public class Main {
     }
 
     private static void setup(){
+        FirebaseSetupHandler.init();
         setupEndpoints();
     }
 
     private static void setupEndpoints() {
         utilEndpoints();
         userEndpoints();
+        emergencyEndpoints();
     }
 
     private static void utilEndpoints() {
@@ -43,6 +50,13 @@ public class Main {
         post("/users/:id", (request, response) -> {
             response.type(Constants.Spark.responseType);
             return new HTTPResponse(new HTTPResponse.Status(Constants.HTTPCodes.OK));
+        },gson::toJson);
+    }
+
+    private static void emergencyEndpoints() {
+        post("/emergencies", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            return EmergencyHandler.create(gson.fromJson(request.body(), Emergency.class));
         },gson::toJson);
     }
 }

@@ -1,4 +1,4 @@
-package Entity;
+package com.alife.Entity;
 
 /**
  * Created by macbook on 4/3/17.
