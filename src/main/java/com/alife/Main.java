@@ -1,11 +1,9 @@
 package com.alife;
 
 import com.alife.Entity.Emergency;
+import com.alife.Entity.Message;
 import com.alife.Entity.User;
-import com.alife.Handler.DateTimeHandler;
-import com.alife.Handler.EmergencyHandler;
-import com.alife.Handler.FirebaseSetupHandler;
-import com.alife.Handler.UserHandler;
+import com.alife.Handler.*;
 import com.alife.Util.HTTPResponse;
 import com.google.gson.Gson;
 
@@ -40,6 +38,7 @@ public class Main {
         utilEndpoints();
         userEndpoints();
         emergencyEndpoints();
+        messageEndPoints();
     }
 
     private static void utilEndpoints() {
@@ -72,6 +71,15 @@ public class Main {
         put("/emergencies/:id", (request, response) -> {
             response.type(Constants.Spark.responseType);
             return EmergencyHandler.update(request.params(":id"), gson.fromJson(request.body(), Emergency.class));
+        }, gson::toJson);
+    }
+
+    private static void messageEndPoints() {
+        post("/messages", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            Message message = gson.fromJson(request.body(), Message.class);
+            message.setSentDate(DateTimeHandler.getCurrentDateAsISO8601());
+            return MessageHandler.create(message);
         }, gson::toJson);
     }
 }

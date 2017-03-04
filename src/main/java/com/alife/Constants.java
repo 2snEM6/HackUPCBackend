@@ -36,6 +36,7 @@ public class Constants {
             public static String BASE = "https://alife-93165.firebaseio.com/";
             public static String emergency = "emergencies";
             public static String user = "users";
+            public static String message = "messages";
         }
     }
 }
