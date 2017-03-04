@@ -1,10 +1,12 @@
+package com.alife;
+
 /**
  * Created by macbook on 4/3/17.
  */
 public class Constants {
 
     public static class Spark {
-        public static Integer port = 8080;
+        public static Integer port = 4567;
         public static String responseType = "application/json";
     }
 
@@ -26,6 +28,10 @@ public class Constants {
                     "  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",\n" +
                     "  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-mqozv%40alife-93165.iam.gserviceaccount.com\"\n" +
                     "}\n";
+        }
+
+        public static class Endpoints {
+            public static String emergency = "emergencies";
         }
     }
 }
