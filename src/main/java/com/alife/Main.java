@@ -1,8 +1,10 @@
 package com.alife;
 
 import com.alife.Entity.Emergency;
+import com.alife.Entity.User;
 import com.alife.Handler.EmergencyHandler;
 import com.alife.Handler.FirebaseSetupHandler;
+import com.alife.Handler.UserHandler;
 import com.alife.Util.HTTPResponse;
 import com.google.gson.Gson;
 
@@ -49,7 +51,10 @@ public class Main {
     private static void userEndpoints() {
         post("/users/:id", (request, response) -> {
             response.type(Constants.Spark.responseType);
-            return new HTTPResponse(new HTTPResponse.Status(Constants.HTTPCodes.OK));
+            User user = gson.fromJson(request.body(), User.class);
+            // TODO Date parsing
+            user.setSignUpDate("----");
+            return UserHandler.create(request.params(":id"),user);
         },gson::toJson);
     }
 
