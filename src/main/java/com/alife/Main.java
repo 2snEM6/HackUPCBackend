@@ -2,6 +2,7 @@ package com.alife;
 
 import com.alife.Entity.Emergency;
 import com.alife.Entity.Participation;
+import com.alife.Entity.Message;
 import com.alife.Entity.User;
 import com.alife.Handler.*;
 import com.alife.Util.HTTPResponse;
@@ -40,6 +41,7 @@ public class Main {
         userEndpoints();
         emergencyEndpoints();
         participationEndpoints();
+        messageEndPoints();
     }
 
     private static void utilEndpoints() {
@@ -95,6 +97,15 @@ public class Main {
         delete("/participations/:id", (request, response) -> {
             response.type(Constants.Spark.responseType);
             return ParticipationHandler.delete(request.params(":id"));
+        }, gson::toJson);
+    }
+
+    private static void messageEndPoints() {
+        post("/messages", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            Message message = gson.fromJson(request.body(), Message.class);
+            message.setSentDate(DateTimeHandler.getCurrentDateAsISO8601());
+            return MessageHandler.create(message);
         }, gson::toJson);
     }
 }
