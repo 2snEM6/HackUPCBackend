@@ -45,6 +45,7 @@ public class Constants {
 
             public static class RELATIONSHIPS {
                 public static String userEmergencies = "userEmergencies";
+                public static String emergencyMessages = "emergencyMessages";
             }
         }
     }

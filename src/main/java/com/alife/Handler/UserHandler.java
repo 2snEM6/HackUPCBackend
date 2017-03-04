@@ -14,8 +14,10 @@ public class UserHandler extends DatabaseHandler {
 
     public static HTTPResponse get(String ID) {
         HTTPResponse httpResponse = get(ID, ENDPOINT);
-        User user = gson.fromJson(((JSONObject) httpResponse.getData()).toString(), User.class);
-        httpResponse.setData(user);
+        if (httpResponse.getStatus().getCode() == Constants.HTTPCodes.OK) {
+            User user = gson.fromJson(((JSONObject) httpResponse.getData()).toString(), User.class);
+            httpResponse.setData(user);
+        }
         return httpResponse;
     }
 

@@ -92,14 +92,21 @@ public class Main {
 
         post("/users/:id/emergencies/:emergencyID/messages", (request, response) -> {
             response.type(Constants.Spark.responseType);
-            HTTPResponse httpResponse = UserHandler.get(request.params(":id"));
-            User user = (User) httpResponse.getData();
-            Message message = gson.fromJson(request.body(),Message.class);
-            message.setSenderID(request.params(":id"));
-            message.setSentDate(DateTimeHandler.getCurrentDateAsISO8601());
-            message.setSenderName(user.getName());
+            String emergencyID = request.params(":emergencyID");
+            String userID = request.params(":id");
+            String messageID = UUID.randomUUID().toString();
+            HTTPResponse httpResponse = UserHandler.get(userID);
 
-            return MessageHandler.create(message);
+            if (httpResponse.getStatus().getCode() == Constants.HTTPCodes.OK) {
+                User user = (User) httpResponse.getData();
+                Message message = gson.fromJson(request.body(),Message.class);
+                message.setSenderID(request.params(":id"));
+                message.setSentDate(DateTimeHandler.getCurrentDateAsISO8601());
+                message.setSenderName(user.getName());
+                EmergencyMessagesHandler.addToEmergency(emergencyID,messageID,message);
+                httpResponse = MessageHandler.create(messageID, message);
+            }
+            return httpResponse;
         }, gson::toJson);
 
 
