@@ -14,10 +14,14 @@ public class Constants {
 
     public static class HTTPCodes {
         public static Integer OK = 200;
+        public static Integer NOT_FOUND = 404;
     }
 
     public static class Firebase {
         public static class Credentials {
+
+            public static String APISECRET = "8yDOLKhhcqfv37gKH9BcRo8PSnKd69ig63SmtzVg";
+
             public static String SDK = "{\n" +
                     "  \"type\": \"service_account\",\n" +
                     "  \"project_id\": \"alife-93165\",\n" +
@@ -38,6 +42,10 @@ public class Constants {
             public static String user = "users";
             public static String message = "messages";
             public static String participation = "participations";
+
+            public static class RELATIONSHIPS {
+                public static String userEmergencies = "userEmergencies";
+            }
         }
     }
 }

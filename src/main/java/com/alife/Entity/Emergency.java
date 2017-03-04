@@ -1,5 +1,10 @@
 package com.alife.Entity;
 
+import org.omg.CORBA.OBJ_ADAPTER;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by macbook on 4/3/17.
  */
@@ -8,6 +13,7 @@ public class Emergency {
     private String ID;
     private Integer type;
     private Location location;
+    private Map<String, Object> participations;
 
     public Emergency(String ID, Integer type, Location location) {
         this.ID = ID;
@@ -16,6 +22,19 @@ public class Emergency {
     }
 
     public Emergency() {
+    }
+
+    public Map<String, Object> getParticipations() {
+        return participations;
+    }
+
+    public void setParticipations(Map<String, Object> participations) {
+        this.participations = participations;
+    }
+
+    public void addParticipation(String participationID) {
+        if (participations == null) participations = new HashMap<>();
+        participations.put(participationID, true);
     }
 
     public String getID() {

@@ -7,6 +7,10 @@ import com.alife.Entity.User;
 import com.alife.Handler.*;
 import com.alife.Util.HTTPResponse;
 import com.google.gson.Gson;
+
+import java.util.Map;
+import java.util.UUID;
+
 import static spark.Spark.*;
 
 /**
@@ -50,6 +54,55 @@ public class Main {
     }
 
     private static void userEndpoints() {
+        post("/users/:id/emergencies", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            String emergencyID = UUID.randomUUID().toString();
+            String participationID = UUID.randomUUID().toString();
+
+            Emergency emergency = gson.fromJson(request.body(), Emergency.class);
+            emergency.addParticipation(participationID);
+
+            Participation participation = new Participation();
+            participation.setJoinDate(DateTimeHandler.getCurrentDateAsISO8601());
+            participation.setUserID(request.params(":id"));
+            participation.setEmergencyID(emergencyID);
+
+            ParticipationHandler.create(participationID, participation);
+            UserEmergenciesHandler.addToUser(request.params(":id"),emergencyID);
+
+            return EmergencyHandler.create(emergencyID, emergency);
+        }, gson::toJson);
+
+        delete("/users/:id/emergencies/:emergencyID", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            String userID = request.params(":id");
+            String emergencyID = request.params(":emergencyID");
+            HTTPResponse httpResponseEmergency = EmergencyHandler.get(emergencyID);
+            if (httpResponseEmergency.getStatus().getCode() == Constants.HTTPCodes.OK) {
+                Emergency emergency = (Emergency) httpResponseEmergency.getData();
+                Map<String, Object> participations = emergency.getParticipations();
+                participations.forEach((k,v) -> {
+                    ParticipationHandler.delete(k);
+                });
+                EmergencyHandler.delete(emergencyID);
+                UserEmergenciesHandler.removeFromUser(userID, emergencyID);
+            }
+            return new HTTPResponse(new HTTPResponse.Status(Constants.HTTPCodes.OK));
+        }, gson::toJson);
+
+        post("/users/:id/emergencies/:emergencyID/messages", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            HTTPResponse httpResponse = UserHandler.get(request.params(":id"));
+            User user = (User) httpResponse.getData();
+            Message message = gson.fromJson(request.body(),Message.class);
+            message.setSenderID(request.params(":id"));
+            message.setSentDate(DateTimeHandler.getCurrentDateAsISO8601());
+            message.setSenderName(user.getName());
+
+            return MessageHandler.create(message);
+        }, gson::toJson);
+
+
         post("/users/:id", (request, response) -> {
             response.type(Constants.Spark.responseType);
             User user = gson.fromJson(request.body(), User.class);
@@ -66,7 +119,7 @@ public class Main {
     private static void emergencyEndpoints() {
         post("/emergencies", (request, response) -> {
             response.type(Constants.Spark.responseType);
-            return EmergencyHandler.create(gson.fromJson(request.body(), Emergency.class));
+            return EmergencyHandler.create(UUID.randomUUID().toString(), gson.fromJson(request.body(), Emergency.class));
         }, gson::toJson);
 
         put("/emergencies/:id", (request, response) -> {
@@ -85,7 +138,7 @@ public class Main {
             response.type(Constants.Spark.responseType);
             Participation participation = gson.fromJson(request.body(), Participation.class);
             participation.setJoinDate(DateTimeHandler.getCurrentDateAsISO8601());
-            return ParticipationHandler.create(participation);
+            return ParticipationHandler.create(UUID.randomUUID().toString(), participation);
         }, gson::toJson);
 
         put("/participations/:id", (request, response) -> {
@@ -105,7 +158,7 @@ public class Main {
             response.type(Constants.Spark.responseType);
             Message message = gson.fromJson(request.body(), Message.class);
             message.setSentDate(DateTimeHandler.getCurrentDateAsISO8601());
-            return MessageHandler.create(message);
+            return MessageHandler.create(UUID.randomUUID().toString(), message);
         }, gson::toJson);
     }
 }

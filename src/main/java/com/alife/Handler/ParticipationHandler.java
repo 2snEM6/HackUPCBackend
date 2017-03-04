@@ -15,6 +15,11 @@ public class ParticipationHandler extends DatabaseHandler {
         return create(participation, ENDPOINT);
     }
 
+    public static HTTPResponse create(String ID, Participation participation) {
+        return create(ID, participation, ENDPOINT);
+    }
+
+
     public static HTTPResponse update(String ID, Participation participation) {
         return update(ID, participation, ENDPOINT);
     }

@@ -8,6 +8,8 @@ public class Message {
     private String type;
     private String content;
     private String sentDate;
+    private String senderID;
+    private String senderName;
 
     public Message() {
     }
@@ -21,6 +23,22 @@ public class Message {
         this.type = type;
         this.content = content;
         this.sentDate = sentDate;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getSenderID() {
+        return senderID;
+    }
+
+    public void setSenderID(String senderID) {
+        this.senderID = senderID;
     }
 
     public String getType() {
