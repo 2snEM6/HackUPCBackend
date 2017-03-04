@@ -32,6 +32,7 @@ public class Constants {
 
         public static class Endpoints {
             public static String emergency = "emergencies";
+            public static String user = "users";
         }
     }
 }
