@@ -2,6 +2,7 @@ package com.alife.Handler;
 
 import com.alife.Constants;
 import com.alife.Util.HTTPResponse;
+import com.alife.Util.ObjectConverter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
@@ -29,5 +30,12 @@ public class DatabaseHandler {
         databaseReference.child(ID).setValue(object);
         return new HTTPResponse(new HTTPResponse.Status(Constants.HTTPCodes.OK), object, ID);
     }
+
+    public static HTTPResponse update(String ID, Object object, String databaseEndpoint){
+        DatabaseReference databaseReference = database.getReference(databaseEndpoint);
+        databaseReference.child(ID).updateChildren(ObjectConverter.objectToMap(object));
+        return new HTTPResponse(new HTTPResponse.Status(Constants.HTTPCodes.OK),ID);
+    }
+
 
 }

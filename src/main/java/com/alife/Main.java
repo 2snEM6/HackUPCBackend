@@ -57,6 +57,11 @@ public class Main {
         post("/emergencies", (request, response) -> {
             response.type(Constants.Spark.responseType);
             return EmergencyHandler.create(gson.fromJson(request.body(), Emergency.class));
-        },gson::toJson);
+        }, gson::toJson);
+
+        put("/emergencies/:id", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            return EmergencyHandler.update(request.params(":id"),gson.fromJson(request.body(), Emergency.class));
+        }, gson::toJson);
     }
 }

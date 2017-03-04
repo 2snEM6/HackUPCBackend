@@ -47,6 +47,11 @@ public class HTTPResponse {
         this.data = data;
     }
 
+    public HTTPResponse(Status status, String key) {
+        this.status = status;
+        this.key = key;
+    }
+
     public HTTPResponse(Status status) {
         this.status = status;
     }

@@ -21,4 +21,8 @@ public class EmergencyHandler extends DatabaseHandler {
         return create(emergency,ENDPOINT);
     }
 
+    public static HTTPResponse update(String ID, Emergency emergency) {
+        return update(ID, emergency, ENDPOINT);
+    }
+
 }
