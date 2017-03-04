@@ -2,6 +2,7 @@ package com.alife;
 
 import com.alife.Entity.Emergency;
 import com.alife.Entity.User;
+import com.alife.Handler.DateTimeHandler;
 import com.alife.Handler.EmergencyHandler;
 import com.alife.Handler.FirebaseSetupHandler;
 import com.alife.Handler.UserHandler;
@@ -52,8 +53,7 @@ public class Main {
         post("/users/:id", (request, response) -> {
             response.type(Constants.Spark.responseType);
             User user = gson.fromJson(request.body(), User.class);
-            // TODO Date parsing
-            user.setSignUpDate("----");
+            user.setSignUpDate(DateTimeHandler.getCurrentDateAsISO8601());
             return UserHandler.create(request.params(":id"),user);
         },gson::toJson);
     }
