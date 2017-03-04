@@ -38,12 +38,14 @@ public class Constants {
 
         public static class Endpoints {
             public static String BASE = "https://alife-93165.firebaseio.com/";
+            public static String alert = "alerts";
             public static String emergency = "emergencies";
             public static String user = "users";
             public static String message = "messages";
             public static String participation = "participations";
 
             public static class RELATIONSHIPS {
+                public static String adminEmergencies = "adminEmergencies";
                 public static String userEmergencies = "userEmergencies";
                 public static String emergencyMessages = "emergencyMessages";
             }

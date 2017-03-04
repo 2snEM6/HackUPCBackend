@@ -23,5 +23,7 @@ public class MessageHandler extends DatabaseHandler {
         return update(ID, message, ENDPOINT);
     }
 
-
+    public static HTTPResponse delete(String ID) {
+        return delete(ID, ENDPOINT);
+    }
 }

@@ -1,13 +1,11 @@
 package com.alife;
 
-import com.alife.Entity.Emergency;
-import com.alife.Entity.Participation;
-import com.alife.Entity.Message;
-import com.alife.Entity.User;
+import com.alife.Entity.*;
 import com.alife.Handler.*;
 import com.alife.Util.HTTPResponse;
 import com.google.gson.Gson;
 
+import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 
@@ -44,6 +42,21 @@ public class Main {
         emergencyEndpoints();
         participationEndpoints();
         messageEndPoints();
+        alertEndpoints();
+    }
+
+    private static void alertEndpoints() {
+        post("/alerts", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            String ID = UUID.randomUUID().toString();
+            return AlertHandler.create(ID, gson.fromJson(request.body(), Alert.class));
+        }, gson::toJson);
+
+        put("/alerts/:id", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            return AlertHandler.update(request.params(":id"), gson.fromJson(request.body(), Alert.class),
+                    request.params(":id"));
+        }, gson::toJson);
     }
 
     private static void utilEndpoints() {
@@ -54,15 +67,67 @@ public class Main {
     }
 
     private static void userEndpoints() {
+
+        post("/users/:id/emergencies/:emergencyID/handle", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            Emergency emergency = (Emergency) EmergencyHandler.get(request.params(":emergencyID")).getData();
+            String administratorID = request.params(":id");
+            String emergencyID = request.params(":emergencyID");
+
+            String participationID = UUID.randomUUID().toString();
+            Participation participation = new Participation();
+            participation.setEmergencyID(emergencyID);
+            participation.setJoinDate(DateTimeHandler.getCurrentDateAsISO8601());
+            participation.setUserID(administratorID);
+            ParticipationHandler.create(participationID, participation);
+
+            emergency.addParticipation(participationID);
+            EmergencyHandler.update(emergencyID, emergency);
+            AdminEmergenciesHandler.addToAdmin(administratorID, emergencyID);
+
+            return new HTTPResponse(new HTTPResponse.Status(Constants.HTTPCodes.OK));
+        }, gson::toJson);
+
+        post("/users/:id/emergencies/:emergencyID/resolve", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            String adminID = request.params(":id");
+            String emergencyID = request.params(":emergencyID");
+            Emergency emergency = (Emergency) EmergencyHandler.get(emergencyID).getData();
+
+            emergency.getParticipations().forEach((k, v) -> {
+
+                Participation participation  = (Participation) ParticipationHandler.get(k).getData();
+                String userID = participation.getUserID();
+
+                if (participation.getAsAdmin()) {
+                    AdminEmergenciesHandler.removeFromAdmin(adminID, emergencyID);
+                } else {
+                    UserEmergenciesHandler.removeFromUser(userID, participation.getEmergencyID());
+                }
+
+                ParticipationHandler.delete(k);
+            });
+
+            ((Map) EmergencyMessagesHandler.getMessages(emergencyID).getData()).forEach((k, v) -> {
+                MessageHandler.delete((String) k);
+            });
+
+            EmergencyHandler.delete(request.params(":emergencyID"));
+            return new HTTPResponse(new HTTPResponse.Status(Constants.HTTPCodes.OK));
+        }, gson::toJson);
+
+
         post("/users/:id/emergencies", (request, response) -> {
             response.type(Constants.Spark.responseType);
             String emergencyID = UUID.randomUUID().toString();
             String participationID = UUID.randomUUID().toString();
 
             Emergency emergency = gson.fromJson(request.body(), Emergency.class);
+            emergency.set_timestamp(Instant.now().toEpochMilli());
             emergency.addParticipation(participationID);
 
             Participation participation = new Participation();
+            participation.setAsAdmin(false);
             participation.setJoinDate(DateTimeHandler.getCurrentDateAsISO8601());
             participation.setUserID(request.params(":id"));
             participation.setEmergencyID(emergencyID);

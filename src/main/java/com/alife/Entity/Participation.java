@@ -9,6 +9,7 @@ public class Participation {
     private String userID;
     private String emergencyID;
     private String joinDate;
+    private Boolean asAdmin;
 
     public Participation(String ID, String userID, String emergencyID, String joinDate) {
         this.ID = ID;
@@ -18,6 +19,14 @@ public class Participation {
     }
 
     public Participation() {
+    }
+
+    public Boolean getAsAdmin() {
+        return asAdmin;
+    }
+
+    public void setAsAdmin(Boolean asAdmin) {
+        this.asAdmin = asAdmin;
     }
 
     public String getJoinDate() {

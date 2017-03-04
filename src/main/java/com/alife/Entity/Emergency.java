@@ -13,6 +13,7 @@ public class Emergency {
     private String ID;
     private Integer type;
     private Location location;
+    private Long _timestamp;
     private Map<String, Object> participations;
 
     public Emergency(String ID, Integer type, Location location) {
@@ -22,6 +23,14 @@ public class Emergency {
     }
 
     public Emergency() {
+    }
+
+    public Long get_timestamp() {
+        return _timestamp;
+    }
+
+    public void set_timestamp(Long _timestamp) {
+        this._timestamp = _timestamp;
     }
 
     public Map<String, Object> getParticipations() {

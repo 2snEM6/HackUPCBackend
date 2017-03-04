@@ -9,6 +9,7 @@ public class User {
     private String name;
     private String email;
     private String signUpDate;
+    private String profileImageURL;
 
     public User() {
     }
@@ -18,6 +19,14 @@ public class User {
         this.name = name;
         this.email = email;
         this.signUpDate = signUpDate;
+    }
+
+    public String getProfileImageURL() {
+        return profileImageURL;
+    }
+
+    public void setProfileImageURL(String profileImageURL) {
+        this.profileImageURL = profileImageURL;
     }
 
     public Integer getUserId() {
