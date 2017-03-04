@@ -4,6 +4,7 @@ import com.alife.Entity.*;
 import com.alife.Handler.*;
 import com.alife.Util.HTTPResponse;
 import com.google.gson.Gson;
+import org.joda.time.DateTimeUtils;
 
 import java.time.Instant;
 import java.util.Map;
@@ -123,7 +124,8 @@ public class Main {
             String participationID = UUID.randomUUID().toString();
 
             Emergency emergency = gson.fromJson(request.body(), Emergency.class);
-            emergency.set_timestamp(Instant.now().toEpochMilli());
+            emergency.set_timestamp(DateTimeHandler.currentTimeInMillis());
+            emergency.setCreationDate(DateTimeHandler.getCurrentDateAsISO8601());
             emergency.addParticipation(participationID);
 
             Participation participation = new Participation();
@@ -178,6 +180,8 @@ public class Main {
         post("/users/:id", (request, response) -> {
             response.type(Constants.Spark.responseType);
             User user = gson.fromJson(request.body(), User.class);
+            user.setAdmin(false);
+            if (request.queryParams().contains("admin")) user.setAdmin(true);
             user.setSignUpDate(DateTimeHandler.getCurrentDateAsISO8601());
             return UserHandler.create(request.params(":id"), user);
         }, gson::toJson);
@@ -191,6 +195,9 @@ public class Main {
     private static void emergencyEndpoints() {
         post("/emergencies", (request, response) -> {
             response.type(Constants.Spark.responseType);
+            Emergency emergency = gson.fromJson(request.body(), Emergency.class);
+            emergency.set_timestamp(DateTimeHandler.currentTimeInMillis());
+            emergency.setCreationDate(DateTimeHandler.getCurrentDateAsISO8601());
             return EmergencyHandler.create(UUID.randomUUID().toString(), gson.fromJson(request.body(), Emergency.class));
         }, gson::toJson);
 

@@ -12,6 +12,10 @@ public class Constants {
         public static String responseType = "application/json";
     }
 
+    public static class GoogleMaps {
+        public static String API_KEY = "AIzaSyB1SgRxNmZF9Vxdz5KsyEhyRF3PqE4wc0A";
+    }
+
     public static class HTTPCodes {
         public static Integer OK = 200;
         public static Integer NOT_FOUND = 404;

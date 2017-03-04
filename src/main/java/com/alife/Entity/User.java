@@ -10,6 +10,7 @@ public class User {
     private String email;
     private String signUpDate;
     private String profileImageURL;
+    private Boolean isAdmin;
 
     public User() {
     }
@@ -23,6 +24,14 @@ public class User {
 
     public String getProfileImageURL() {
         return profileImageURL;
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 
     public void setProfileImageURL(String profileImageURL) {

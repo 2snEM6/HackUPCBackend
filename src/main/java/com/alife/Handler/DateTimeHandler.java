@@ -4,6 +4,7 @@ import com.alife.Constants;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Locale;
@@ -18,6 +19,10 @@ public class DateTimeHandler {
         DateFormat df = new SimpleDateFormat(Constants.DATEFORMAT_ISO8601,
                 Locale.getDefault());
         return df.format(date);
+    }
+
+    public static Long currentTimeInMillis() {
+        return Instant.now().toEpochMilli();
     }
 
     public static String dateToISO8601(Date date){

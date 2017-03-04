@@ -14,6 +14,7 @@ public class Emergency {
     private Integer type;
     private Location location;
     private Long _timestamp;
+    private String creationDate;
     private Map<String, Object> participations;
 
     public Emergency(String ID, Integer type, Location location) {
@@ -27,6 +28,14 @@ public class Emergency {
 
     public Long get_timestamp() {
         return _timestamp;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
     }
 
     public void set_timestamp(Long _timestamp) {
