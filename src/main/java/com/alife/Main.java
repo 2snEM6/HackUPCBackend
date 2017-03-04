@@ -1,13 +1,12 @@
 package com.alife;
 
 import com.alife.Entity.Emergency;
+import com.alife.Entity.Participation;
 import com.alife.Entity.User;
-import com.alife.Handler.DateTimeHandler;
-import com.alife.Handler.EmergencyHandler;
-import com.alife.Handler.FirebaseSetupHandler;
-import com.alife.Handler.UserHandler;
+import com.alife.Handler.*;
 import com.alife.Util.HTTPResponse;
 import com.google.gson.Gson;
+import com.sun.tools.internal.jxc.ap.Const;
 
 import static spark.Spark.*;
 
@@ -40,6 +39,7 @@ public class Main {
         utilEndpoints();
         userEndpoints();
         emergencyEndpoints();
+        participationEndpoints();
     }
 
     private static void utilEndpoints() {
@@ -72,6 +72,29 @@ public class Main {
         put("/emergencies/:id", (request, response) -> {
             response.type(Constants.Spark.responseType);
             return EmergencyHandler.update(request.params(":id"), gson.fromJson(request.body(), Emergency.class));
+        }, gson::toJson);
+
+        delete("/emergencies/:id", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            return EmergencyHandler.delete(request.params(":id"));
+        }, gson::toJson);
+    }
+
+    private static void participationEndpoints() {
+        post("/participations", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            return ParticipationHandler.create(gson.fromJson(request.body(), Participation.class));
+        }, gson::toJson);
+
+        put("/participations/:id", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            return ParticipationHandler.update(request.params(":id"), gson.fromJson(request.body(),
+                    Participation.class));
+        }, gson::toJson);
+
+        delete("/participations/:id", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            return ParticipationHandler.delete(request.params(":id"));
         }, gson::toJson);
     }
 }

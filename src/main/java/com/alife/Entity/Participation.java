@@ -20,6 +20,14 @@ public class Participation {
     public Participation() {
     }
 
+    public String getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(String joinDate) {
+        this.joinDate = joinDate;
+    }
+
     public String getID() {
         return ID;
     }

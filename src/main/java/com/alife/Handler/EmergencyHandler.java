@@ -25,4 +25,8 @@ public class EmergencyHandler extends DatabaseHandler {
         return update(ID, emergency, ENDPOINT);
     }
 
+    public static HTTPResponse delete(String ID) {
+        return delete(ID,ENDPOINT);
+    }
+
 }

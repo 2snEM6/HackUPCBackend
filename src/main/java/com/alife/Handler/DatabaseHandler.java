@@ -18,23 +18,29 @@ public class DatabaseHandler {
     public final static FirebaseDatabase database = FirebaseDatabase.getInstance();
     public final static Gson gson = new GsonBuilder().create();
 
-    public static HTTPResponse create(String ID, Object object, String databaseEndpoint){
+    public static HTTPResponse create(String ID, Object object, String databaseEndpoint) {
         DatabaseReference databaseReference = database.getReference(databaseEndpoint);
         databaseReference.child(ID).setValue(object);
         return new HTTPResponse(new HTTPResponse.Status(Constants.HTTPCodes.OK), object);
     }
 
-    public static HTTPResponse create(Object object, String databaseEndpoint){
+    public static HTTPResponse create(Object object, String databaseEndpoint) {
         DatabaseReference databaseReference = database.getReference(databaseEndpoint);
         String ID = databaseReference.push().getKey();
         databaseReference.child(ID).setValue(object);
         return new HTTPResponse(new HTTPResponse.Status(Constants.HTTPCodes.OK), object, ID);
     }
 
-    public static HTTPResponse update(String ID, Object object, String databaseEndpoint){
+    public static HTTPResponse update(String ID, Object object, String databaseEndpoint) {
         DatabaseReference databaseReference = database.getReference(databaseEndpoint);
         databaseReference.child(ID).updateChildren(ObjectConverter.objectToMap(object));
-        return new HTTPResponse(new HTTPResponse.Status(Constants.HTTPCodes.OK),ID);
+        return new HTTPResponse(new HTTPResponse.Status(Constants.HTTPCodes.OK), ID);
+    }
+
+    public static HTTPResponse delete(String ID, String databaseEndpoint) {
+        DatabaseReference databaseReference = database.getReference(databaseEndpoint);
+        databaseReference.child(ID).removeValue();
+        return new HTTPResponse(new HTTPResponse.Status(Constants.HTTPCodes.OK));
     }
 
 
