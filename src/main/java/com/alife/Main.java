@@ -85,7 +85,9 @@ public class Main {
     private static void participationEndpoints() {
         post("/participations", (request, response) -> {
             response.type(Constants.Spark.responseType);
-            return ParticipationHandler.create(gson.fromJson(request.body(), Participation.class));
+            Participation participation = gson.fromJson(request.body(), Participation.class);
+            participation.setJoinDate(DateTimeHandler.getCurrentDateAsISO8601());
+            return ParticipationHandler.create(participation);
         }, gson::toJson);
 
         put("/participations/:id", (request, response) -> {
