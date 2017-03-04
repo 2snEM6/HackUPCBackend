@@ -7,8 +7,6 @@ import com.alife.Entity.User;
 import com.alife.Handler.*;
 import com.alife.Util.HTTPResponse;
 import com.google.gson.Gson;
-import com.sun.tools.internal.jxc.ap.Const;
-
 import static spark.Spark.*;
 
 /**
