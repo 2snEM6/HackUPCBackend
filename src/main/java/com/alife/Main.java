@@ -31,7 +31,7 @@ public class Main {
         setup();
     }
 
-    private static void setup(){
+    private static void setup() {
         FirebaseSetupHandler.init();
         setupEndpoints();
     }
@@ -54,8 +54,13 @@ public class Main {
             response.type(Constants.Spark.responseType);
             User user = gson.fromJson(request.body(), User.class);
             user.setSignUpDate(DateTimeHandler.getCurrentDateAsISO8601());
-            return UserHandler.create(request.params(":id"),user);
-        },gson::toJson);
+            return UserHandler.create(request.params(":id"), user);
+        }, gson::toJson);
+
+        put("/users/:id", (request, response) -> {
+            response.type(Constants.Spark.responseType);
+            return UserHandler.update(request.params(":id"), gson.fromJson(request.body(), User.class));
+        }, gson::toJson);
     }
 
     private static void emergencyEndpoints() {
@@ -66,7 +71,7 @@ public class Main {
 
         put("/emergencies/:id", (request, response) -> {
             response.type(Constants.Spark.responseType);
-            return EmergencyHandler.update(request.params(":id"),gson.fromJson(request.body(), Emergency.class));
+            return EmergencyHandler.update(request.params(":id"), gson.fromJson(request.body(), Emergency.class));
         }, gson::toJson);
     }
 }

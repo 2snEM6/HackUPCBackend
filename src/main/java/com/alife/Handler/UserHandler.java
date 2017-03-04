@@ -19,4 +19,8 @@ public class UserHandler extends DatabaseHandler {
         return create(user,ENDPOINT);
     }
 
+    public static HTTPResponse update(String ID, User user) {
+        return update(ID, user, ENDPOINT);
+    }
+
 }
