@@ -5,6 +5,8 @@ package com.alife;
  */
 public class Constants {
 
+    public static String DATEFORMAT_ISO8601 = "yyyy-MM-dd'T'HH:mm:ssZ";
+
     public static class Spark {
         public static Integer port = 4567;
         public static String responseType = "application/json";
