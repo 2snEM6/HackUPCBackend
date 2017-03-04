@@ -35,10 +35,12 @@
     </build>
 
     <dependencies>
+
+
         <dependency>
             <groupId>com.google.firebase</groupId>
-            <artifactId>firebase-server-sdk</artifactId>
-            <version>[3.0.1,)</version>
+            <artifactId>firebase-admin</artifactId>
+            <version>4.1.2</version>
         </dependency>
 
         <dependency>
