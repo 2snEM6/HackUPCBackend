@@ -11,6 +11,13 @@ public class User {
     private String signUpDate;
     private String profileImageURL;
     private Boolean isAdmin;
+    private String birthday;
+    private String phone;
+    private String bloodType;
+    private String gender;
+    private Integer weight;
+    private Integer height;
+
 
     public User() {
     }
@@ -20,6 +27,54 @@ public class User {
         this.name = name;
         this.email = email;
         this.signUpDate = signUpDate;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
     }
 
     public String getProfileImageURL() {
