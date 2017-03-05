@@ -200,6 +200,7 @@ public class Main {
                 Message message = gson.fromJson(request.body(),Message.class);
                 message.setSenderID(request.params(":id"));
                 message.setSentDate(DateTimeHandler.getCurrentDateAsISO8601());
+                message.set_timestamp(DateTimeHandler.currentTimeInMillis());
                 message.setSenderName(user.getName());
                 EmergencyMessagesHandler.addToEmergency(emergencyID,messageID,message);
                 httpResponse = MessageHandler.create(messageID, message);
@@ -268,6 +269,7 @@ public class Main {
             response.type(Constants.Spark.responseType);
             Message message = gson.fromJson(request.body(), Message.class);
             message.setSentDate(DateTimeHandler.getCurrentDateAsISO8601());
+            message.set_timestamp(DateTimeHandler.currentTimeInMillis());
             return MessageHandler.create(UUID.randomUUID().toString(), message);
         }, gson::toJson);
     }

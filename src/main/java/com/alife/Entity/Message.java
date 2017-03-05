@@ -10,6 +10,7 @@ public class Message {
     private String sentDate;
     private String senderID;
     private String senderName;
+    private Long _timestamp;
 
     public Message() {
     }
@@ -23,6 +24,14 @@ public class Message {
         this.type = type;
         this.content = content;
         this.sentDate = sentDate;
+    }
+
+    public Long get_timestamp() {
+        return _timestamp;
+    }
+
+    public void set_timestamp(Long _timestamp) {
+        this._timestamp = _timestamp;
     }
 
     public String getSenderName() {
