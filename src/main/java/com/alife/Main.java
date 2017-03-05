@@ -28,9 +28,9 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        enableCORS("*","*","*");
         port(getHerokuAssignedPort());
         setup();
-        enableCORS("*","*","*");
     }
 
     private static void enableCORS(final String origin, final String methods, final String headers) {
