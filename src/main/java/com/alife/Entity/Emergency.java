@@ -16,6 +16,7 @@ public class Emergency {
     private Long _timestamp;
     private String creationDate;
     private Map<String, Object> participations;
+    private String requesterName;
 
     public Emergency(String ID, Integer type, Location location) {
         this.ID = ID;
@@ -24,6 +25,14 @@ public class Emergency {
     }
 
     public Emergency() {
+    }
+
+    public String getRequesterName() {
+        return requesterName;
+    }
+
+    public void setRequesterName(String requesterName) {
+        this.requesterName = requesterName;
     }
 
     public Long get_timestamp() {

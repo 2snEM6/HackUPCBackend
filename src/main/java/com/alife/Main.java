@@ -129,6 +129,7 @@ public class Main {
             emergency.set_timestamp(DateTimeHandler.currentTimeInMillis());
             emergency.setCreationDate(DateTimeHandler.getCurrentDateAsISO8601());
             emergency.addParticipation(participationID);
+            emergency.setRequesterName(user.getName());
 
             Participation participation = new Participation();
             participation.setAsAdmin(false);
