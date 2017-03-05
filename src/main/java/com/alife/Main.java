@@ -29,7 +29,7 @@ public class Main {
 
     public static void main(String[] args) {
         port(getHerokuAssignedPort());
-        enableCORS("*","*","*");
+        //enableCORS("*","*","*");
         setup();
     }
 
