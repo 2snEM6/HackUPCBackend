@@ -10,7 +10,7 @@ public class UserEmergenciesHandler extends DatabaseHandler {
     private static String ENDPOINT = Constants.Firebase.Endpoints.RELATIONSHIPS.userEmergencies;
 
     public static void addToUser(String userID, String emergencyID) {
-        create(userID,emergencyID, true, ENDPOINT);
+        create(userID,emergencyID, DateTimeHandler.currentTimeInMillis(), ENDPOINT);
     }
 
     public static void removeFromUser(String userID, String emergencyID) {

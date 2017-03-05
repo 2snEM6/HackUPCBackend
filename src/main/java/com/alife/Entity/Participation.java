@@ -7,6 +7,7 @@ public class Participation {
 
     private String ID;
     private String userID;
+    private String userName;
     private String emergencyID;
     private String joinDate;
     private Boolean asAdmin;
@@ -19,6 +20,14 @@ public class Participation {
     }
 
     public Participation() {
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Boolean getAsAdmin() {

@@ -123,6 +123,8 @@ public class Main {
             String emergencyID = UUID.randomUUID().toString();
             String participationID = UUID.randomUUID().toString();
 
+            User user = (User) UserHandler.get(request.params(":id")).getData();
+
             Emergency emergency = gson.fromJson(request.body(), Emergency.class);
             emergency.set_timestamp(DateTimeHandler.currentTimeInMillis());
             emergency.setCreationDate(DateTimeHandler.getCurrentDateAsISO8601());
@@ -133,6 +135,7 @@ public class Main {
             participation.setJoinDate(DateTimeHandler.getCurrentDateAsISO8601());
             participation.setUserID(request.params(":id"));
             participation.setEmergencyID(emergencyID);
+            participation.setUserName(user.getName());
 
             ParticipationHandler.create(participationID, participation);
             UserEmergenciesHandler.addToUser(request.params(":id"),emergencyID);
